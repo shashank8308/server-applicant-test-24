@@ -1,16 +1,12 @@
 package com.freenow.controller;
 
-import com.freenow.controller.mapper.DriverMapper;
-import com.freenow.datatransferobject.DriverDTO;
-import com.freenow.domainobject.DriverDO;
-import com.freenow.domainvalue.OnlineStatus;
-import com.freenow.exception.ConstraintsViolationException;
-import com.freenow.exception.EntityNotFoundException;
-import com.freenow.service.driver.DriverService;
 import java.util.List;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,12 +18,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.freenow.controller.mapper.DriverMapper;
+import com.freenow.datatransferobject.DriverDTO;
+import com.freenow.domainobject.DriverDO;
+import com.freenow.domainvalue.OnlineStatus;
+import com.freenow.exception.ConstraintsViolationException;
+import com.freenow.exception.EntityNotFoundException;
+import com.freenow.service.driver.DriverService;
+
 /**
  * All operations with a driver will be routed by this controller.
  * <p/>
  */
 @RestController
 @RequestMapping("v1/drivers")
+@Secured("ROLE_ADMIN")
 public class DriverController
 {
 
