@@ -21,6 +21,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.freenow.domainvalue.CarStatus;
 import com.freenow.domainvalue.EngineType;
 
+/**
+ * 
+ * @author shashank
+ *
+ */
 @Entity
 @Table(
     name = "car",

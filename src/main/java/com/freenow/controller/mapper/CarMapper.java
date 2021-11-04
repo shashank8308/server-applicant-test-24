@@ -7,6 +7,11 @@ import java.util.stream.Collectors;
 import com.freenow.datatransferobject.CarDTO;
 import com.freenow.domainobject.CarDO;
 
+/**
+ * 
+ * @author shashank
+ *
+ */
 public class CarMapper {
 	public static CarDO makeCarDO(CarDTO carDTO)
     {

@@ -9,6 +9,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.freenow.domainvalue.EngineType;
 
+/**
+ * 
+ * @author shashank
+ *
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CarDTO
 {

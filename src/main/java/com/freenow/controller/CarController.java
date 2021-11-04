@@ -28,6 +28,11 @@ import com.freenow.exception.EntityNotFoundException;
 import com.freenow.service.car.CarService;
 
 /**
+ * 
+ * @author shashank
+ *
+ */
+/**
  * All operations with a car will be routed by this controller.
  * <p/>
  */
@@ -78,7 +83,7 @@ public class CarController
     }
     
     @GetMapping
-    public List<CarDTO> findCars(@RequestParam CarStatus carStatus)
+    public List<CarDTO> findCarsBaseOnCarStatus(@RequestParam CarStatus carStatus)
         throws ConstraintsViolationException, EntityNotFoundException
     {
         return CarMapper.makeCarDTOList(carService.find(carStatus));
