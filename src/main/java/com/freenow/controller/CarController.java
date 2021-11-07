@@ -38,7 +38,7 @@ import com.freenow.service.car.CarService;
  */
 @RestController
 @RequestMapping("v1/cars")
-@Secured("ROLE_ADMIN")
+//@Secured("ROLE_ADMIN")
 public class CarController
 {
 

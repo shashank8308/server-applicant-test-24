@@ -1,11 +1,17 @@
 package com.freenow.service.driver;
 
 import com.freenow.dataaccessobject.DriverRepository;
+import com.freenow.domainobject.CarDO;
 import com.freenow.domainobject.DriverDO;
+import com.freenow.domainvalue.CarStatus;
 import com.freenow.domainvalue.GeoCoordinate;
 import com.freenow.domainvalue.OnlineStatus;
+import com.freenow.exception.CarAlreadyInUseException;
 import com.freenow.exception.ConstraintsViolationException;
 import com.freenow.exception.EntityNotFoundException;
+import com.freenow.exception.ErrorCode;
+import com.freenow.exception.ProhibitedOperationException;
+
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +35,7 @@ public class DefaultDriverService implements DriverService
     private static final Logger LOG = LoggerFactory.getLogger(DefaultDriverService.class);
 
     private final DriverRepository driverRepository;
+    private static final String MESSAGE="Could not map car with id ";
 
 
     public DefaultDriverService(final DriverRepository driverRepository)
@@ -124,5 +131,41 @@ public class DefaultDriverService implements DriverService
         return driverRepository.findById(driverId)
             .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
     }
+
+
+	@Override
+	public DriverDO mapCar(DriverDO driverDO, CarDO carDO)
+			throws CarAlreadyInUseException, ProhibitedOperationException {
+		
+		if(driverDO.getOnlineStatus()==OnlineStatus.OFFLINE){
+			throw new ProhibitedOperationException("Please be online in order to map a car.",ErrorCode.OFFLINEDRIVER);
+		}else if(carDO.getCarStatus()==CarStatus.MAP){
+			throw new CarAlreadyInUseException(MESSAGE+carDO.getId()+", Already in Use.");
+		}else{
+			driverDO.setCarDO(carDO);
+			carDO.setCarStatus(CarStatus.MAP);
+		}
+	return driverDO;
+}
+
+
+	@Override
+	public DriverDO unMapCar(DriverDO driverDO, CarDO carDO) throws ProhibitedOperationException {
+		
+		if(driverDO.getCarDO()!=null && driverDO.getCarDO().getId()==carDO.getId()){
+			driverDO.setCarDO(null);
+			carDO.setCarStatus(CarStatus.UNMAP);
+		}else{
+			throw new ProhibitedOperationException("Car with id-"+carDO.getId()+", Not mapped to you.",ErrorCode.NOTMAPPED);
+		}
+		return driverDO;
+	}
+
+
+	@Override
+	public DriverDO findByCar(Long carID) {
+		// TODO Auto-generated method stub
+		return driverRepository.findByAndCarDO_Id(carID);
+	}
 
 }
